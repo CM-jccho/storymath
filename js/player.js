@@ -1,10 +1,11 @@
 /* 인터랙티브 단계별 풀이 엔진 */
 const Player = (() => {
+  const PHASES = ['이해', '계획', '실행', '반성'];
   const PHASE_INFO = {
-    '이해': { icon: '🔍', className: 'phase-understand', tip: '문제가 무엇을 말하는지 파악해요' },
-    '계획': { icon: '🗺️', className: 'phase-plan', tip: '어떻게 풀지 작전을 세워요' },
-    '실행': { icon: '✏️', className: 'phase-execute', tip: '세운 계획대로 계산해요' },
-    '반성': { icon: '💡', className: 'phase-reflect', tip: '답이 말이 되는지 확인해요' }
+    '이해': { n: 1, className: 'phase-understand', tip: '문제가 무엇을 말하는지 파악해요' },
+    '계획': { n: 2, className: 'phase-plan', tip: '어떻게 풀지 작전을 세워요' },
+    '실행': { n: 3, className: 'phase-execute', tip: '세운 계획대로 계산해요' },
+    '반성': { n: 4, className: 'phase-reflect', tip: '답이 말이 되는지 확인해요' }
   };
   const DIFF_NAMES = { 1: '기본', 2: '응용', 3: '심화' };
   const REVEAL_AFTER = 3; // 이 횟수만큼 틀리면 '정답 보기' 제공
@@ -24,15 +25,13 @@ const Player = (() => {
       return int.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (dec || '');
     });
   }
-  // 일반 텍스트: 이스케이프 + 콤마
   function fmt(text) {
     return addCommas(esc(text));
   }
-  // 여러 줄 텍스트: + 줄바꿈
   function nl2br(text) {
     return fmt(text).replace(/\n/g, '<br>');
   }
-  // 스토리·질문: 숫자를 강조 칩으로 감싸 "숫자 찾기"를 돕는다
+  // 스토리·질문: 숫자를 강조해 "숫자 찾기"를 돕는다
   function nl2brNum(text) {
     return nl2br(text).replace(/(\d[\d,]*(?:\.\d+)?)/g, '<span class="num">$1</span>');
   }
@@ -73,22 +72,34 @@ const Player = (() => {
     return norm === want;
   }
 
+  // 4단계 스테퍼: 현재 단계의 phase는 active, 이미 지나간 phase는 done
+  function stepperHtml() {
+    const steps = S.problem.steps;
+    const current = steps[S.stepIndex];
+    const lastIndexOfPhase = {};
+    steps.forEach((st, i) => { lastIndexOfPhase[st.phase] = i; });
+    return `<div class="phase-stepper">` + PHASES.map((ph, i) => {
+      const info = PHASE_INFO[ph];
+      let cls = '';
+      if (current && current.phase === ph) cls = 'active';
+      else if (lastIndexOfPhase[ph] !== undefined && lastIndexOfPhase[ph] < S.stepIndex) cls = 'done';
+      else if (!current) cls = 'done'; // 완료 화면
+      return `${i > 0 ? '<span class="ps-connector"></span>' : ''}
+        <span class="ps-item ${cls} ${info.className}">
+          <span class="ps-dot">${info.n}</span>${esc(ph)}
+        </span>`;
+    }).join('') + `</div>`;
+  }
+
   function render() {
     const p = S.problem;
-    const steps = p.steps;
-    const dots = steps.map((st, i) => {
-      const info = PHASE_INFO[st.phase];
-      const cls = i < S.stepIndex ? 'done' : i === S.stepIndex ? 'now' : '';
-      return `<span class="dot ${info.className} ${cls}" title="${esc(st.phase)}"></span>`;
-    }).join('');
-
-    const solvedHtml = S.solvedSteps.map((s, i) => {
+    const solvedHtml = S.solvedSteps.map(s => {
       const info = PHASE_INFO[s.step.phase];
       return `
         <div class="step-card solved">
           <div class="step-head">
-            <span class="phase-badge ${info.className}">${info.icon} ${esc(s.step.phase)}</span>
-            <span class="step-status">${s.revealed ? '👀 정답 봄' : '✅'}</span>
+            <span class="phase-badge ${info.className}">${info.n} ${esc(s.step.phase)}</span>
+            <span class="step-status ${s.revealed ? 'revealed' : ''}">${s.revealed ? '정답 봄' : '해결'}</span>
           </div>
           <p class="step-prompt">${nl2br(s.step.prompt)}</p>
           <p class="chosen-answer">${fmt(s.answerText)}</p>
@@ -96,7 +107,7 @@ const Player = (() => {
         </div>`;
     }).join('');
 
-    const isDone = S.stepIndex >= steps.length;
+    const isDone = S.stepIndex >= p.steps.length;
     S.container.innerHTML = `
       <div class="player">
         <div class="player-top">
@@ -106,9 +117,9 @@ const Player = (() => {
         <div class="story-card">
           <h2>${esc(p.title)}</h2>
           <p class="story">${nl2brNum(p.story)}</p>
-          <p class="question">❓ ${nl2brNum(p.question)}</p>
+          <p class="question"><span class="q-label">구하는 것</span><strong class="q-text">${nl2brNum(p.question)}</strong></p>
         </div>
-        <div class="step-dots">${dots}</div>
+        ${stepperHtml()}
         <div class="steps">${solvedHtml}</div>
         <div id="current-step"></div>
       </div>`;
@@ -135,7 +146,9 @@ const Player = (() => {
       body = `
         <div class="options">
           ${step.options.map((o, i) =>
-            `<button class="option" data-i="${i}">${multi ? '<span class="checkbox"></span>' : ''}${fmt(o)}</button>`
+            `<button class="option" data-i="${i}">${
+              multi ? '<span class="checkbox"></span>' : `<span class="opt-key">${i + 1}</span>`
+            }<span>${fmt(o)}</span></button>`
           ).join('')}
         </div>
         ${multi ? '<button id="btn-check" class="btn primary">선택 완료</button>' : ''}`;
@@ -144,7 +157,7 @@ const Player = (() => {
     box.innerHTML = `
       <div class="step-card current">
         <div class="step-head">
-          <span class="phase-badge ${info.className}">${info.icon} ${esc(step.phase)}</span>
+          <span class="phase-badge ${info.className}">${info.n} ${esc(step.phase)}</span>
           <span class="phase-tip">${esc(info.tip)}</span>
         </div>
         <p class="step-prompt">${nl2br(step.prompt)}</p>
@@ -152,8 +165,8 @@ const Player = (() => {
         ${body}
         <div class="feedback" id="feedback"></div>
         <div class="step-actions">
-          <button id="btn-hint" class="btn ghost">💡 힌트 보기</button>
-          <button id="btn-reveal" class="btn ghost hidden">👀 정답 보기</button>
+          <button id="btn-hint" class="btn ghost">힌트 보기</button>
+          <button id="btn-reveal" class="btn ghost hidden">정답 보기</button>
         </div>
       </div>`;
 
@@ -171,7 +184,7 @@ const Player = (() => {
     hintBtn.addEventListener('click', () => {
       if (!S.hintShown) { S.hintsUsed++; S.hintShown = true; }
       feedback.className = 'feedback hint';
-      feedback.innerHTML = `💡 ${nl2br(step.hint)}`;
+      feedback.innerHTML = nl2br(step.hint);
     });
 
     revealBtn.addEventListener('click', () => {
@@ -183,7 +196,7 @@ const Player = (() => {
       S.wrongTotal++;
       S.stepWrong++;
       feedback.className = 'feedback wrong';
-      feedback.innerHTML = '🤔 음, 다시 한번 생각해 볼까요? 힌트가 필요하면 힌트 버튼을 눌러요.';
+      feedback.innerHTML = '다시 한번 생각해 볼까요? 막히면 힌트 버튼을 눌러요.';
       const card = box.querySelector('.step-card');
       card.classList.remove('shake');
       void card.offsetWidth; // 애니메이션 재시작
@@ -222,7 +235,6 @@ const Player = (() => {
     S.solvedSteps.push({ step, answerText: answerText(step), revealed });
     S.stepIndex++;
     render();
-    // 새로 완료된 단계가 보이도록 스크롤
     const cards = S.container.querySelectorAll('.step-card');
     const last = cards[cards.length - 1];
     if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -244,7 +256,7 @@ const Player = (() => {
         <div class="complete-emoji">${perfect ? '🏆' : '🎉'}</div>
         <h2>${perfect ? '완벽한 풀이!' : '문제 해결!'}</h2>
         <p class="final-answer">답: <strong>${fmt(p.finalAnswer)}</strong></p>
-        <div class="wrapup">📌 ${nl2br(p.wrapUp)}</div>
+        <div class="wrapup">${nl2br(p.wrapUp)}</div>
         <div class="stats">
           <span>다시 생각한 횟수 ${S.wrongTotal}</span>
           <span>힌트 ${S.hintsUsed}</span>
@@ -259,5 +271,5 @@ const Player = (() => {
       start(S.container, S.unit, S.problem));
   }
 
-  return { start, DIFF_NAMES, PHASE_INFO };
+  return { start, DIFF_NAMES, PHASE_INFO, PHASES };
 })();

@@ -1,6 +1,7 @@
 /* curriculum.json과 단원별 문제 파일 로딩 (캐시 포함) */
 const Data = (() => {
   let curriculum = null;
+  let tracks = null;
   const unitCache = {};
 
   async function getCurriculum() {
@@ -43,5 +44,14 @@ const Data = (() => {
     return problem ? { unit, problem } : null;
   }
 
-  return { getCurriculum, getUnit, findGrade, findUnitMeta, findProblem };
+  async function getTracks() {
+    if (!tracks) {
+      const res = await fetch('data/tracks.json');
+      if (!res.ok) throw new Error('트랙 데이터를 불러올 수 없어요.');
+      tracks = (await res.json()).tracks;
+    }
+    return tracks;
+  }
+
+  return { getCurriculum, getUnit, findGrade, findUnitMeta, findProblem, getTracks };
 })();
