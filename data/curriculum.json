@@ -1,15 +1,133 @@
 {
   "curriculum": "2022 개정 교육과정 (교육부 고시 제2022-33호)",
-  "domains": ["수와 연산", "변화와 관계", "도형과 측정", "자료와 가능성"],
+  "domains": [
+    "수와 연산",
+    "변화와 관계",
+    "도형과 측정",
+    "자료와 가능성"
+  ],
   "difficulties": [
-    { "level": 1, "name": "기본", "description": "개념을 그대로 적용하는 한 단계 문제" },
-    { "level": 2, "name": "응용", "description": "두 가지 이상을 조합하는 여러 단계 문제" },
-    { "level": 3, "name": "심화", "description": "전략을 스스로 세워야 하는 문제" }
+    {
+      "level": 1,
+      "name": "기본",
+      "description": "개념을 그대로 적용하는 한 단계 문제"
+    },
+    {
+      "level": 2,
+      "name": "응용",
+      "description": "두 가지 이상을 조합하는 여러 단계 문제"
+    },
+    {
+      "level": 3,
+      "name": "심화",
+      "description": "전략을 스스로 세워야 하는 문제"
+    }
   ],
   "grades": [
-    { "id": "e1", "name": "초등 1학년", "school": "elementary", "status": "coming-soon", "semesters": [] },
-    { "id": "e2", "name": "초등 2학년", "school": "elementary", "status": "coming-soon", "semesters": [] },
-    { "id": "e3", "name": "초등 3학년", "school": "elementary", "status": "coming-soon", "semesters": [] },
+    {
+      "id": "e1",
+      "name": "초등 1학년",
+      "school": "elementary",
+      "status": "coming-soon",
+      "semesters": []
+    },
+    {
+      "id": "e2",
+      "name": "초등 2학년",
+      "school": "elementary",
+      "status": "coming-soon",
+      "semesters": []
+    },
+    {
+      "id": "e3",
+      "name": "초등 3학년",
+      "school": "elementary",
+      "status": "active",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "e3-1-1",
+              "number": 1,
+              "name": "덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-1-2",
+              "number": 2,
+              "name": "평면도형",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e3-1-3",
+              "number": 3,
+              "name": "나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-1-4",
+              "number": 4,
+              "name": "곱셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-1-5",
+              "number": 5,
+              "name": "길이와 시간",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e3-1-6",
+              "number": 6,
+              "name": "분수와 소수",
+              "domain": "수와 연산"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "e3-2-1",
+              "number": 1,
+              "name": "곱셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-2-2",
+              "number": 2,
+              "name": "나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-2-3",
+              "number": 3,
+              "name": "원",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e3-2-4",
+              "number": 4,
+              "name": "분수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e3-2-5",
+              "number": 5,
+              "name": "들이와 무게",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e3-2-6",
+              "number": 6,
+              "name": "자료의 정리",
+              "domain": "자료와 가능성"
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "e4",
       "name": "초등 4학년",
@@ -19,23 +137,83 @@
         {
           "semester": 1,
           "units": [
-            { "id": "e4-1-1", "number": 1, "name": "큰 수", "domain": "수와 연산" },
-            { "id": "e4-1-2", "number": 2, "name": "각도", "domain": "도형과 측정" },
-            { "id": "e4-1-3", "number": 3, "name": "곱셈과 나눗셈", "domain": "수와 연산" },
-            { "id": "e4-1-4", "number": 4, "name": "평면도형의 이동", "domain": "도형과 측정" },
-            { "id": "e4-1-5", "number": 5, "name": "막대그래프", "domain": "자료와 가능성" },
-            { "id": "e4-1-6", "number": 6, "name": "규칙 찾기", "domain": "변화와 관계" }
+            {
+              "id": "e4-1-1",
+              "number": 1,
+              "name": "큰 수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e4-1-2",
+              "number": 2,
+              "name": "각도",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e4-1-3",
+              "number": 3,
+              "name": "곱셈과 나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e4-1-4",
+              "number": 4,
+              "name": "평면도형의 이동",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e4-1-5",
+              "number": 5,
+              "name": "막대그래프",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "e4-1-6",
+              "number": 6,
+              "name": "규칙 찾기",
+              "domain": "변화와 관계"
+            }
           ]
         },
         {
           "semester": 2,
           "units": [
-            { "id": "e4-2-1", "number": 1, "name": "분수의 덧셈과 뺄셈", "domain": "수와 연산" },
-            { "id": "e4-2-2", "number": 2, "name": "삼각형", "domain": "도형과 측정" },
-            { "id": "e4-2-3", "number": 3, "name": "소수의 덧셈과 뺄셈", "domain": "수와 연산" },
-            { "id": "e4-2-4", "number": 4, "name": "사각형", "domain": "도형과 측정" },
-            { "id": "e4-2-5", "number": 5, "name": "꺾은선그래프", "domain": "자료와 가능성" },
-            { "id": "e4-2-6", "number": 6, "name": "다각형", "domain": "도형과 측정" }
+            {
+              "id": "e4-2-1",
+              "number": 1,
+              "name": "분수의 덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e4-2-2",
+              "number": 2,
+              "name": "삼각형",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e4-2-3",
+              "number": 3,
+              "name": "소수의 덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e4-2-4",
+              "number": 4,
+              "name": "사각형",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e4-2-5",
+              "number": 5,
+              "name": "꺾은선그래프",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "e4-2-6",
+              "number": 6,
+              "name": "다각형",
+              "domain": "도형과 측정"
+            }
           ]
         }
       ]
@@ -49,30 +227,386 @@
         {
           "semester": 1,
           "units": [
-            { "id": "e5-1-1", "number": 1, "name": "자연수의 혼합 계산", "domain": "수와 연산" },
-            { "id": "e5-1-2", "number": 2, "name": "약수와 배수", "domain": "수와 연산" },
-            { "id": "e5-1-3", "number": 3, "name": "대응 관계", "domain": "변화와 관계" },
-            { "id": "e5-1-4", "number": 4, "name": "약분과 통분", "domain": "수와 연산" },
-            { "id": "e5-1-5", "number": 5, "name": "분수의 덧셈과 뺄셈", "domain": "수와 연산" },
-            { "id": "e5-1-6", "number": 6, "name": "다각형의 둘레와 넓이", "domain": "도형과 측정" }
+            {
+              "id": "e5-1-1",
+              "number": 1,
+              "name": "자연수의 혼합 계산",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-1-2",
+              "number": 2,
+              "name": "약수와 배수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-1-3",
+              "number": 3,
+              "name": "대응 관계",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "e5-1-4",
+              "number": 4,
+              "name": "약분과 통분",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-1-5",
+              "number": 5,
+              "name": "분수의 덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-1-6",
+              "number": 6,
+              "name": "다각형의 둘레와 넓이",
+              "domain": "도형과 측정"
+            }
           ]
         },
         {
           "semester": 2,
           "units": [
-            { "id": "e5-2-1", "number": 1, "name": "수의 범위와 어림하기", "domain": "수와 연산" },
-            { "id": "e5-2-2", "number": 2, "name": "분수의 곱셈", "domain": "수와 연산" },
-            { "id": "e5-2-3", "number": 3, "name": "합동과 대칭", "domain": "도형과 측정" },
-            { "id": "e5-2-4", "number": 4, "name": "소수의 곱셈", "domain": "수와 연산" },
-            { "id": "e5-2-5", "number": 5, "name": "직육면체", "domain": "도형과 측정" },
-            { "id": "e5-2-6", "number": 6, "name": "평균과 가능성", "domain": "자료와 가능성" }
+            {
+              "id": "e5-2-1",
+              "number": 1,
+              "name": "수의 범위와 어림하기",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-2-2",
+              "number": 2,
+              "name": "분수의 곱셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-2-3",
+              "number": 3,
+              "name": "합동과 대칭",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e5-2-4",
+              "number": 4,
+              "name": "소수의 곱셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e5-2-5",
+              "number": 5,
+              "name": "직육면체",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e5-2-6",
+              "number": 6,
+              "name": "평균과 가능성",
+              "domain": "자료와 가능성"
+            }
           ]
         }
       ]
     },
-    { "id": "e6", "name": "초등 6학년", "school": "elementary", "status": "coming-soon", "semesters": [] },
-    { "id": "m1", "name": "중등 1학년", "school": "middle", "status": "coming-soon", "semesters": [] },
-    { "id": "m2", "name": "중등 2학년", "school": "middle", "status": "coming-soon", "semesters": [] },
-    { "id": "m3", "name": "중등 3학년", "school": "middle", "status": "coming-soon", "semesters": [] }
+    {
+      "id": "e6",
+      "name": "초등 6학년",
+      "school": "elementary",
+      "status": "active",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "e6-1-1",
+              "number": 1,
+              "name": "분수의 나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e6-1-2",
+              "number": 2,
+              "name": "각기둥과 각뿔",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e6-1-3",
+              "number": 3,
+              "name": "소수의 나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e6-1-4",
+              "number": 4,
+              "name": "비와 비율",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "e6-1-5",
+              "number": 5,
+              "name": "여러 가지 그래프",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "e6-1-6",
+              "number": 6,
+              "name": "직육면체의 부피와 겉넓이",
+              "domain": "도형과 측정"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "e6-2-1",
+              "number": 1,
+              "name": "분수의 나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e6-2-2",
+              "number": 2,
+              "name": "소수의 나눗셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e6-2-3",
+              "number": 3,
+              "name": "공간과 입체",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e6-2-4",
+              "number": 4,
+              "name": "비례식과 비례배분",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "e6-2-5",
+              "number": 5,
+              "name": "원의 넓이",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e6-2-6",
+              "number": 6,
+              "name": "원기둥, 원뿔, 구",
+              "domain": "도형과 측정"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m1",
+      "name": "중등 1학년",
+      "school": "middle",
+      "status": "coming-soon",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "m1-1-1",
+              "number": 1,
+              "name": "소인수분해",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "m1-1-2",
+              "number": 2,
+              "name": "정수와 유리수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "m1-1-3",
+              "number": 3,
+              "name": "문자의 사용과 식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m1-1-4",
+              "number": 4,
+              "name": "일차방정식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m1-1-5",
+              "number": 5,
+              "name": "좌표평면과 그래프",
+              "domain": "변화와 관계"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "m1-2-1",
+              "number": 1,
+              "name": "기본 도형과 작도",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m1-2-2",
+              "number": 2,
+              "name": "평면도형의 성질",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m1-2-3",
+              "number": 3,
+              "name": "입체도형의 성질",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m1-2-4",
+              "number": 4,
+              "name": "자료의 정리와 해석",
+              "domain": "자료와 가능성"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "name": "중등 2학년",
+      "school": "middle",
+      "status": "coming-soon",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "m2-1-1",
+              "number": 1,
+              "name": "유리수와 순환소수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "m2-1-2",
+              "number": 2,
+              "name": "식의 계산",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m2-1-3",
+              "number": 3,
+              "name": "일차부등식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m2-1-4",
+              "number": 4,
+              "name": "연립일차방정식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m2-1-5",
+              "number": 5,
+              "name": "일차함수와 그래프",
+              "domain": "변화와 관계"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "m2-2-1",
+              "number": 1,
+              "name": "삼각형의 성질",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m2-2-2",
+              "number": 2,
+              "name": "사각형의 성질",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m2-2-3",
+              "number": 3,
+              "name": "도형의 닮음",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m2-2-4",
+              "number": 4,
+              "name": "피타고라스 정리",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m2-2-5",
+              "number": 5,
+              "name": "확률",
+              "domain": "자료와 가능성"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "name": "중등 3학년",
+      "school": "middle",
+      "status": "coming-soon",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "m3-1-1",
+              "number": 1,
+              "name": "제곱근과 실수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "m3-1-2",
+              "number": 2,
+              "name": "다항식의 곱셈과 인수분해",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m3-1-3",
+              "number": 3,
+              "name": "이차방정식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "m3-1-4",
+              "number": 4,
+              "name": "이차함수와 그래프",
+              "domain": "변화와 관계"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "m3-2-1",
+              "number": 1,
+              "name": "삼각비",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m3-2-2",
+              "number": 2,
+              "name": "원의 성질",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "m3-2-3",
+              "number": 3,
+              "name": "통계 — 산포도와 상자그림, 산점도",
+              "domain": "자료와 가능성"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
