@@ -1,0 +1,284 @@
+/* ===== 기본 ===== */
+:root {
+  --bg: #fdf9f3;
+  --card: #ffffff;
+  --ink: #33302b;
+  --ink-soft: #6f6a61;
+  --line: #ece5da;
+  --brand: #4f63d2;
+  --brand-soft: #eef1fd;
+  --accent: #f59e0b;
+  --ok: #16a34a;
+  --ok-soft: #ecfdf3;
+  --warn: #dc2626;
+  --warn-soft: #fef2f2;
+  --hint: #b45309;
+  --hint-soft: #fffbeb;
+  --understand: #2563eb;
+  --understand-soft: #eff6ff;
+  --plan: #7c3aed;
+  --plan-soft: #f5f3ff;
+  --execute: #ea580c;
+  --execute-soft: #fff7ed;
+  --reflect: #059669;
+  --reflect-soft: #ecfdf5;
+  --radius: 16px;
+  --shadow: 0 2px 10px rgba(80, 70, 50, .07);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { line-height: 1.35; }
+
+.container { max-width: 780px; margin: 0 auto; padding: 24px 20px 80px; }
+.loading { color: var(--ink-soft); text-align: center; padding: 60px 0; }
+
+/* ===== 상단바 / 푸터 ===== */
+.topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 780px; margin: 0 auto; padding: 16px 20px;
+}
+.logo { font-weight: 800; font-size: 1.2rem; }
+.nav-link { margin-left: 16px; font-weight: 600; color: var(--ink-soft); font-size: .95rem; }
+.nav-link:hover { color: var(--brand); }
+.footer { text-align: center; color: var(--ink-soft); font-size: .85rem; padding: 24px; }
+
+/* ===== 버튼 ===== */
+.btn {
+  display: inline-block; padding: 11px 20px; border-radius: 12px;
+  font-size: 1rem; font-weight: 700; cursor: pointer; border: none;
+  font-family: inherit; transition: transform .1s, box-shadow .1s;
+}
+.btn:active { transform: scale(.97); }
+.btn.primary { background: var(--brand); color: #fff; box-shadow: var(--shadow); }
+.btn.primary:hover { box-shadow: 0 4px 14px rgba(79, 99, 210, .35); }
+.btn.ghost { background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
+.btn.ghost:hover { border-color: var(--brand); color: var(--brand); }
+.hidden { display: none !important; }
+
+/* ===== 홈 ===== */
+.hero { text-align: center; padding: 36px 0 20px; }
+.hero h1 { font-size: 1.9rem; margin: 0 0 14px; }
+.hero h1 em { font-style: normal; color: var(--brand); }
+.hero p { color: var(--ink-soft); margin: 0 0 24px; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.phase-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin: 28px 0 40px;
+}
+.phase-chip {
+  background: var(--card); border-radius: var(--radius); padding: 14px 10px;
+  text-align: center; box-shadow: var(--shadow); font-size: .82rem;
+  display: flex; flex-direction: column; gap: 2px; color: var(--ink-soft);
+  border-top: 3px solid var(--line);
+}
+.phase-chip strong { font-size: .95rem; color: var(--ink); }
+.phase-chip-icon { font-size: 1.3rem; }
+.phase-chip.phase-understand { border-top-color: var(--understand); }
+.phase-chip.phase-plan { border-top-color: var(--plan); }
+.phase-chip.phase-execute { border-top-color: var(--execute); }
+.phase-chip.phase-reflect { border-top-color: var(--reflect); }
+
+.section-title { font-size: 1.15rem; margin: 30px 0 14px; }
+.grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.grade-card {
+  background: var(--card); border-radius: var(--radius); padding: 18px 16px;
+  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px;
+  opacity: .55; border: 1.5px solid transparent;
+}
+.grade-card.active { opacity: 1; border-color: var(--brand); }
+.grade-card.active:hover { box-shadow: 0 4px 16px rgba(79, 99, 210, .2); }
+.grade-name { font-weight: 700; }
+.grade-open { color: var(--brand); font-size: .85rem; font-weight: 600; }
+.grade-soon { color: var(--ink-soft); font-size: .85rem; }
+
+/* ===== 방법론 페이지 ===== */
+.method h1 { font-size: 1.6rem; }
+.method-lead { color: var(--ink-soft); font-size: 1.05rem; }
+.method-step {
+  background: var(--card); border-radius: var(--radius); padding: 20px 22px;
+  margin: 18px 0; box-shadow: var(--shadow); border-left: 5px solid var(--line);
+}
+.method-step h2 { font-size: 1.1rem; margin: 0 0 8px; }
+.method-step.phase-understand { border-left-color: var(--understand); }
+.method-step.phase-plan { border-left-color: var(--plan); }
+.method-step.phase-execute { border-left-color: var(--execute); }
+.method-step.phase-reflect { border-left-color: var(--reflect); }
+.method-tip {
+  background: var(--hint-soft); border-radius: 10px; padding: 10px 14px;
+  font-size: .92rem; color: var(--hint); margin-bottom: 0;
+}
+.method-closing { font-size: 1.05rem; text-align: center; margin: 30px 0 20px; }
+
+/* ===== 학년/단원 목록 ===== */
+.page-head { margin-bottom: 20px; }
+.page-head h1 { margin: 8px 0 4px; font-size: 1.5rem; }
+.back-link { color: var(--ink-soft); font-size: .9rem; font-weight: 600; }
+.back-link:hover { color: var(--brand); }
+.unit-meta { color: var(--ink-soft); margin: 0; font-size: .92rem; }
+.unit-guide { color: var(--ink-soft); }
+
+.unit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.unit-card {
+  background: var(--card); border-radius: var(--radius); padding: 16px 18px;
+  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 3px;
+  border: 1.5px solid transparent; position: relative;
+}
+.unit-card:hover { border-color: var(--brand); }
+.unit-number { font-size: .78rem; color: var(--ink-soft); font-weight: 700; }
+.unit-name { font-weight: 700; font-size: 1.05rem; }
+.unit-domain { font-size: .8rem; color: var(--ink-soft); }
+.unit-progress {
+  position: absolute; top: 14px; right: 16px; font-size: .8rem;
+  background: var(--brand-soft); color: var(--brand);
+  padding: 3px 9px; border-radius: 20px; font-weight: 700;
+}
+.unit-progress.full { background: var(--ok-soft); color: var(--ok); }
+
+.problem-list { display: flex; flex-direction: column; gap: 10px; }
+.problem-card {
+  background: var(--card); border-radius: var(--radius); padding: 16px 18px;
+  box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px;
+  border: 1.5px solid transparent;
+}
+.problem-card:hover { border-color: var(--brand); }
+.p-title { font-weight: 700; flex: 1; }
+.p-status { font-size: .85rem; color: var(--ink-soft); }
+.p-status.solved { color: var(--ok); font-weight: 700; }
+.p-status.perfect { color: var(--accent); font-weight: 700; }
+
+.diff-badge {
+  font-size: .78rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;
+}
+.diff-1 { background: #e0f2fe; color: #0369a1; }
+.diff-2 { background: #fef3c7; color: #b45309; }
+.diff-3 { background: #fce7f3; color: #be185d; }
+
+/* ===== 플레이어 ===== */
+.player-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+
+.story-card {
+  background: var(--card); border-radius: var(--radius); padding: 22px 24px;
+  box-shadow: var(--shadow); margin-bottom: 18px;
+}
+.story-card h2 { margin: 0 0 10px; font-size: 1.3rem; }
+.story { margin: 0 0 14px; }
+.question {
+  background: var(--brand-soft); border-radius: 12px; padding: 12px 16px;
+  font-weight: 700; margin: 0;
+}
+
+.step-dots { display: flex; gap: 7px; justify-content: center; margin-bottom: 18px; }
+.dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--line); transition: transform .2s;
+}
+.dot.now { transform: scale(1.45); }
+.dot.done.phase-understand, .dot.now.phase-understand { background: var(--understand); }
+.dot.done.phase-plan, .dot.now.phase-plan { background: var(--plan); }
+.dot.done.phase-execute, .dot.now.phase-execute { background: var(--execute); }
+.dot.done.phase-reflect, .dot.now.phase-reflect { background: var(--reflect); }
+.dot.now { outline: 3px solid rgba(0,0,0,.08); }
+
+.steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+.step-card {
+  background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.step-card.solved { opacity: .82; padding: 14px 20px; }
+.step-card.current { border: 2px solid var(--brand); }
+.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.phase-badge {
+  font-size: .8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;
+}
+.phase-badge.phase-understand { background: var(--understand-soft); color: var(--understand); }
+.phase-badge.phase-plan { background: var(--plan-soft); color: var(--plan); }
+.phase-badge.phase-execute { background: var(--execute-soft); color: var(--execute); }
+.phase-badge.phase-reflect { background: var(--reflect-soft); color: var(--reflect); }
+.phase-tip { font-size: .82rem; color: var(--ink-soft); }
+.step-status { margin-left: auto; font-size: .9rem; }
+.step-prompt { font-weight: 700; margin: 6px 0 12px; }
+.multi-note { font-size: .85rem; color: var(--ink-soft); margin: -6px 0 12px; }
+.chosen-answer {
+  background: var(--ok-soft); color: var(--ok); font-weight: 700;
+  border-radius: 10px; padding: 8px 14px; display: inline-block; margin: 0 0 8px;
+  font-size: .95rem;
+}
+.step-explain { color: var(--ink-soft); font-size: .92rem; margin: 0; }
+
+.options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 12px; }
+.option {
+  text-align: left; background: var(--bg); border: 1.5px solid var(--line);
+  border-radius: 12px; padding: 12px 16px; font-size: 1rem; font-family: inherit;
+  cursor: pointer; display: flex; align-items: center; gap: 10px; color: var(--ink);
+}
+.option:hover { border-color: var(--brand); background: var(--brand-soft); }
+.option.selected { border-color: var(--brand); background: var(--brand-soft); font-weight: 700; }
+.checkbox {
+  width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 5px;
+  flex-shrink: 0; background: #fff;
+}
+.option.selected .checkbox { background: var(--brand); border-color: var(--brand); }
+
+.input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.answer-input {
+  flex: 1; max-width: 200px; padding: 11px 14px; font-size: 1.1rem;
+  border: 1.5px solid var(--line); border-radius: 12px; font-family: inherit;
+}
+.answer-input:focus { outline: none; border-color: var(--brand); }
+.input-unit { font-weight: 700; color: var(--ink-soft); }
+
+.feedback { border-radius: 10px; font-size: .93rem; }
+.feedback.hint { background: var(--hint-soft); color: var(--hint); padding: 10px 14px; margin-bottom: 10px; }
+.feedback.wrong { background: var(--warn-soft); color: var(--warn); padding: 10px 14px; margin-bottom: 10px; }
+.step-actions { display: flex; gap: 10px; }
+.step-actions .btn { font-size: .88rem; padding: 8px 14px; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.step-card.shake { animation: shake .25s ease-in-out 2; }
+
+/* ===== 완료 화면 ===== */
+.complete-card {
+  background: var(--card); border-radius: var(--radius); padding: 30px 24px;
+  box-shadow: var(--shadow); text-align: center; border: 2px solid var(--ok);
+}
+.complete-emoji { font-size: 3rem; }
+.complete-card h2 { margin: 8px 0; }
+.final-answer { font-size: 1.2rem; }
+.final-answer strong { color: var(--brand); }
+.wrapup {
+  background: var(--brand-soft); border-radius: 12px; padding: 14px 18px;
+  text-align: left; margin: 16px 0;
+}
+.stats { display: flex; gap: 16px; justify-content: center; color: var(--ink-soft); font-size: .88rem; margin-bottom: 18px; }
+.complete-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ===== 오류 ===== */
+.error-card {
+  background: var(--card); border-radius: var(--radius); padding: 30px;
+  box-shadow: var(--shadow); text-align: center;
+}
+.error-tip { color: var(--ink-soft); font-size: .9rem; }
+.error-card code { background: var(--bg); padding: 2px 8px; border-radius: 6px; }
+
+/* ===== 모바일 ===== */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.5rem; }
+  .phase-strip { grid-template-columns: repeat(2, 1fr); }
+  .grade-grid { grid-template-columns: repeat(2, 1fr); }
+  .unit-grid { grid-template-columns: 1fr; }
+}
