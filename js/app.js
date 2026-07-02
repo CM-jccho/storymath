@@ -9,9 +9,9 @@
     div.textContent = text;
     return div.innerHTML;
   }
-  // "초등 3학년" → "초3", "중등 1학년" → "중1"
+  // "초등 3학년" → "초3", "중등 1학년" → "중1", "고등 1학년" → "고1"
   function shortGrade(name) {
-    return name.replace(/^(초|중)등?\s*(\d)학년$/, '$1$2');
+    return name.replace(/^(초|중|고)등?\s*(\d)학년$/, '$1$2');
   }
   function activeUnits(cur) {
     const list = [];

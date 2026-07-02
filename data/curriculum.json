@@ -28,15 +28,175 @@
       "id": "e1",
       "name": "초등 1학년",
       "school": "elementary",
-      "status": "coming-soon",
-      "semesters": []
+      "status": "active",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "e1-1-1",
+              "number": 1,
+              "name": "9까지의 수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e1-1-2",
+              "number": 2,
+              "name": "여러 가지 모양",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e1-1-3",
+              "number": 3,
+              "name": "덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e1-1-4",
+              "number": 4,
+              "name": "비교하기",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e1-1-5",
+              "number": 5,
+              "name": "50까지의 수",
+              "domain": "수와 연산"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "e1-2-1",
+              "number": 1,
+              "name": "100까지의 수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e1-2-2",
+              "number": 2,
+              "name": "덧셈과 뺄셈 (1)",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e1-2-3",
+              "number": 3,
+              "name": "여러 가지 모양",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e1-2-4",
+              "number": 4,
+              "name": "덧셈과 뺄셈 (2)",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e1-2-5",
+              "number": 5,
+              "name": "시계 보기와 규칙 찾기",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "e1-2-6",
+              "number": 6,
+              "name": "덧셈과 뺄셈 (3)",
+              "domain": "수와 연산"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "e2",
       "name": "초등 2학년",
       "school": "elementary",
-      "status": "coming-soon",
-      "semesters": []
+      "status": "active",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "e2-1-1",
+              "number": 1,
+              "name": "세 자리 수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e2-1-2",
+              "number": 2,
+              "name": "여러 가지 도형",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e2-1-3",
+              "number": 3,
+              "name": "덧셈과 뺄셈",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e2-1-4",
+              "number": 4,
+              "name": "길이 재기",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e2-1-5",
+              "number": 5,
+              "name": "분류하기",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "e2-1-6",
+              "number": 6,
+              "name": "곱셈",
+              "domain": "수와 연산"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "e2-2-1",
+              "number": 1,
+              "name": "네 자리 수",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e2-2-2",
+              "number": 2,
+              "name": "곱셈구구",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "e2-2-3",
+              "number": 3,
+              "name": "길이 재기",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e2-2-4",
+              "number": 4,
+              "name": "시각과 시간",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "e2-2-5",
+              "number": 5,
+              "name": "표와 그래프",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "e2-2-6",
+              "number": 6,
+              "name": "규칙 찾기",
+              "domain": "변화와 관계"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "e3",
@@ -402,7 +562,7 @@
       "id": "m1",
       "name": "중등 1학년",
       "school": "middle",
-      "status": "coming-soon",
+      "status": "active",
       "semesters": [
         {
           "semester": 1,
@@ -474,7 +634,7 @@
       "id": "m2",
       "name": "중등 2학년",
       "school": "middle",
-      "status": "coming-soon",
+      "status": "active",
       "semesters": [
         {
           "semester": 1,
@@ -552,7 +712,7 @@
       "id": "m3",
       "name": "중등 3학년",
       "school": "middle",
-      "status": "coming-soon",
+      "status": "active",
       "semesters": [
         {
           "semester": 1,
@@ -603,6 +763,96 @@
               "number": 3,
               "name": "통계 — 산포도와 상자그림, 산점도",
               "domain": "자료와 가능성"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "h1",
+      "name": "고등 1학년",
+      "school": "high",
+      "status": "active",
+      "semesters": [
+        {
+          "semester": 1,
+          "units": [
+            {
+              "id": "h1-1-1",
+              "number": 1,
+              "name": "다항식의 연산",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "h1-1-2",
+              "number": 2,
+              "name": "나머지정리와 인수분해",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "h1-1-3",
+              "number": 3,
+              "name": "복소수와 이차방정식",
+              "domain": "수와 연산"
+            },
+            {
+              "id": "h1-1-4",
+              "number": 4,
+              "name": "이차함수와 여러 가지 방정식·부등식",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "h1-1-5",
+              "number": 5,
+              "name": "경우의 수와 순열·조합",
+              "domain": "자료와 가능성"
+            },
+            {
+              "id": "h1-1-6",
+              "number": 6,
+              "name": "행렬",
+              "domain": "변화와 관계"
+            }
+          ]
+        },
+        {
+          "semester": 2,
+          "units": [
+            {
+              "id": "h1-2-1",
+              "number": 1,
+              "name": "평면좌표와 직선의 방정식",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "h1-2-2",
+              "number": 2,
+              "name": "원의 방정식",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "h1-2-3",
+              "number": 3,
+              "name": "도형의 이동",
+              "domain": "도형과 측정"
+            },
+            {
+              "id": "h1-2-4",
+              "number": 4,
+              "name": "집합",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "h1-2-5",
+              "number": 5,
+              "name": "명제",
+              "domain": "변화와 관계"
+            },
+            {
+              "id": "h1-2-6",
+              "number": 6,
+              "name": "함수와 그래프",
+              "domain": "변화와 관계"
             }
           ]
         }
