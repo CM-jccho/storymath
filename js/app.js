@@ -51,9 +51,18 @@
   /* ---------- 홈 ---------- */
   async function viewHome() {
     const cur = await Data.getCurriculum();
+    const game = Store.getGame();
+    const level = Store.levelInfo(game.xp);
+    const statsCard = game.xp > 0 ? `
+      <a href="#/me" class="grade-row" style="margin-bottom:24px">
+        <span class="grade-badge">Lv</span>
+        <span class="grade-info"><span class="grade-name">${esc(level.name)} · ${game.xp} XP</span>
+        <span class="grade-sub">${game.streak.days >= 2 ? `🔥 ${game.streak.days}일 연속 · ` : ''}배지 ${Object.keys(game.badges).length}개 · 내 기록 보기</span></span>
+        <span class="grade-arrow">›</span>
+      </a>` : '';
     app.innerHTML = `
       <section class="hero">
-        <span class="hero-eyebrow">2022 개정 교육과정 기반</span>
+        <span class="hero-eyebrow">현행 교육과정 기반</span>
         <h1>수학이 어려운 게 아니라<br><em>푸는 방법</em>을 몰랐을 뿐이에요</h1>
         <p>이야기 속 문제를 네 단계로 한 걸음씩. 정답을 외우는 대신,
         처음 보는 문제 앞에서 "다음에 뭘 해야 하는지"를 배워요.</p>
@@ -63,10 +72,17 @@
         </div>
       </section>
       ${methodStrip()}
+      ${statsCard}
       <h2 class="section-title">학년별 학습</h2>
       ${gradeListHtml(cur)}
       <h2 class="section-title">다르게 둘러보기</h2>
       <div class="grade-list">
+        <a href="#/sets" class="grade-row">
+          <span class="grade-badge">세트</span>
+          <span class="grade-info"><span class="grade-name">랜덤 문제 세트</span>
+          <span class="grade-sub">골고루 · 기본 다지기 · 심화 도전 · 새 문제 · 복습 — 매번 다르게 뽑아요</span></span>
+          <span class="grade-arrow">›</span>
+        </a>
         <a href="#/explore/domain" class="grade-row">
           <span class="grade-badge">영역</span>
           <span class="grade-info"><span class="grade-name">영역별</span>
@@ -314,10 +330,170 @@
       <div class="problem-list">${cards}</div>`;
   }
 
+  /* ---------- 랜덤 문제 세트 ---------- */
+  const SET_TYPES = [
+    { id: 'mix', name: '골고루 세트', desc: '기본·응용·심화를 섞어서 5문제', size: 5 },
+    { id: 'basic', name: '기본 다지기', desc: '기본 문제만 모아서 5문제', size: 5 },
+    { id: 'challenge', name: '심화 도전', desc: '심화 문제만 골라서 3문제', size: 3 },
+    { id: 'new', name: '새 문제만', desc: '아직 안 풀어 본 문제 5문제', size: 5 },
+    { id: 'review', name: '복습 세트', desc: '힌트를 썼거나 헤맸던 문제 다시 5문제', size: 5 }
+  ];
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  async function collectProblems(cur, scope) {
+    const targets = activeUnits(cur).filter(x => scope === 'all' || x.grade.id === scope);
+    const loaded = (await Promise.all(targets.map(async x => {
+      try { return await Data.getUnit(x.unit.id); } catch { return null; }
+    }))).filter(Boolean);
+    return loaded.flatMap(u => u.problems.map(p => ({ id: p.id, difficulty: p.difficulty })));
+  }
+
+  async function buildSet(cur, scope, type) {
+    const pool = await collectProblems(cur, scope);
+    const rec = id => Store.getProblem(id);
+    let picked = [];
+    if (type.id === 'mix') {
+      const byDiff = d => shuffle(pool.filter(p => p.difficulty === d));
+      picked = [...byDiff(1).slice(0, 2), ...byDiff(2).slice(0, 2), ...byDiff(3).slice(0, 1)];
+    } else if (type.id === 'basic') {
+      picked = shuffle(pool.filter(p => p.difficulty === 1)).slice(0, type.size);
+    } else if (type.id === 'challenge') {
+      picked = shuffle(pool.filter(p => p.difficulty === 3)).slice(0, type.size);
+    } else if (type.id === 'new') {
+      picked = shuffle(pool.filter(p => { const r = rec(p.id); return !(r && r.solved); })).slice(0, type.size);
+    } else if (type.id === 'review') {
+      picked = shuffle(pool.filter(p => {
+        const r = rec(p.id);
+        return r && r.solved && (r.attempts > 0 || r.hints > 0 || r.revealed);
+      })).slice(0, type.size);
+    }
+    if (picked.length === 0) return null;
+    return { ids: shuffle(picked).map(p => p.id), index: 0, typeName: type.name, ts: Date.now() };
+  }
+
+  async function viewSets(scope) {
+    scope = scope || 'all';
+    const cur = await Data.getCurriculum();
+    const grades = cur.grades.filter(g => g.status === 'active');
+    const chips = [
+      `<a href="#/sets" class="chip ${scope === 'all' ? 'active' : ''}">전체</a>`,
+      ...grades.map(g =>
+        `<a href="#/sets/${g.id}" class="chip ${scope === g.id ? 'active' : ''}">${esc(shortGrade(g.name))}</a>`)
+    ].join('');
+
+    const cards = SET_TYPES.map(t => `
+      <button class="grade-row set-type" data-type="${t.id}">
+        <span class="grade-badge">${t.size}</span>
+        <span class="grade-info"><span class="grade-name">${esc(t.name)}</span>
+        <span class="grade-sub">${esc(t.desc)}</span></span>
+        <span class="grade-arrow">›</span>
+      </button>`).join('');
+
+    app.innerHTML = `
+      <div class="page-head"><h1>랜덤 문제 세트</h1>
+      <p class="unit-meta">범위를 고르고 세트를 뽑으면, 매번 다른 문제 조합이 나와요.</p></div>
+      <div class="chip-row">${chips}</div>
+      <div class="grade-list">${cards}</div>
+      <p class="unit-guide" id="set-msg"></p>`;
+
+    app.querySelectorAll('.set-type').forEach(btn =>
+      btn.addEventListener('click', async () => {
+        const type = SET_TYPES.find(t => t.id === btn.dataset.type);
+        const set = await buildSet(cur, scope, type);
+        if (!set) {
+          document.getElementById('set-msg').textContent =
+            type.id === 'review' ? '아직 복습할 문제가 없어요. 먼저 몇 문제 풀어 볼까요?'
+            : type.id === 'new' ? '이 범위의 문제를 모두 풀었어요! 다른 범위를 골라 보세요.'
+            : '뽑을 문제가 없어요. 다른 범위를 골라 보세요.';
+          return;
+        }
+        Store.saveSet(set);
+        location.hash = `#/play/${set.ids[0]}`;
+      }));
+  }
+
+  /* ---------- 내 기록 ---------- */
+  async function viewMe() {
+    const cur = await Data.getCurriculum();
+    const game = Store.getGame();
+    const level = Store.levelInfo(game.xp);
+    const problems = Store.load().problems;
+    const solvedCount = Object.values(problems).filter(r => r.solved).length;
+    const perfectCount = Object.values(problems).filter(r => r.perfect).length;
+
+    const gradeRows = await Promise.all(cur.grades.filter(g => g.status === 'active').map(async g => {
+      const unitIds = g.semesters.flatMap(s => s.units.map(u => u.id));
+      let done = 0, total = 0;
+      for (const uid of unitIds) {
+        try {
+          const u = await Data.getUnit(uid);
+          total += u.problems.length;
+          done += u.problems.filter(p => { const r = problems[p.id]; return r && r.solved; }).length;
+        } catch { /* skip */ }
+      }
+      const pct = total ? Math.round(done / total * 100) : 0;
+      return `<div class="grade-row" style="cursor:default">
+        <span class="grade-badge">${esc(shortGrade(g.name))}</span>
+        <span class="grade-info"><span class="grade-name">${done}/${total} 해결</span></span>
+        <span class="unit-right"><span class="progress-track"><span class="progress-fill ${pct === 100 ? 'full' : ''}" style="width:${pct}%"></span></span></span>
+      </div>`;
+    }));
+
+    const badges = Object.entries(Store.BADGES).map(([id, b]) => {
+      const earned = !!game.badges[id];
+      return `<div class="badge-card ${earned ? '' : 'locked'}">
+        <span class="badge-icon">${earned ? '🎖' : '🔒'}</span>
+        <strong>${esc(b.name)}</strong>
+        <span>${esc(b.desc)}</span>
+      </div>`;
+    }).join('');
+
+    app.innerHTML = `
+      <div class="page-head"><h1>내 기록</h1></div>
+      <div class="story-card">
+        <div class="level-bar-row">
+          <span class="level-name">${esc(level.name)}</span>
+          <span class="progress-track level-track"><span class="progress-fill" style="width:${level.progress}%"></span></span>
+          <span class="level-next">${level.nextMin ? `${level.xp}/${level.nextMin} XP` : `${level.xp} XP · MAX`}</span>
+        </div>
+        <div class="stats" style="margin:14px 0 0">
+          <span>해결 ${solvedCount}</span>
+          <span>완벽 풀이 ${perfectCount}</span>
+          <span>${game.streak.days >= 2 ? `🔥 ${game.streak.days}일 연속` : `연속 ${game.streak.days || 0}일`}</span>
+        </div>
+      </div>
+      <h2 class="section-title">배지</h2>
+      <div class="badge-grid">${badges}</div>
+      <h2 class="section-title">학년별 진도</h2>
+      <div class="grade-list">${gradeRows.join('')}</div>
+      <p style="margin-top:28px"><button id="btn-reset" class="btn ghost">기록 모두 지우기</button></p>`;
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (confirm('진도, XP, 배지가 모두 지워져요. 정말 지울까요?')) {
+        Store.reset();
+        location.hash = '#/';
+      }
+    });
+  }
+
   /* ---------- 문제 플레이 ---------- */
   async function viewPlay(problemId) {
     const found = await Data.findProblem(problemId);
     if (!found) throw new Error('없는 문제예요.');
+    // 세트에 포함된 문제면 세트 진행 위치를 동기화
+    const set = Store.getSet();
+    if (set) {
+      const i = set.ids.indexOf(problemId);
+      if (i >= 0 && i !== set.index) { set.index = i; Store.saveSet(set); }
+    }
     Player.start(app, found.unit, found.problem);
   }
 
@@ -332,6 +508,8 @@
       else if (page === 'grades') await viewGrades();
       else if (page === 'grade') await viewGrade(arg);
       else if (page === 'explore') await viewExplore(arg);
+      else if (page === 'sets') await viewSets(arg);
+      else if (page === 'me') await viewMe();
       else if (page === 'unit') await viewUnit(arg);
       else if (page === 'play') await viewPlay(arg);
       else await viewHome();

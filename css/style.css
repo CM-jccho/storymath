@@ -385,6 +385,46 @@ a.grade-row:hover { border-color: var(--primary); box-shadow: var(--shadow-lift)
 .stats { display: flex; gap: 18px; justify-content: center; color: var(--ink-faint); font-size: .86rem; margin-bottom: 20px; }
 .complete-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
+/* ===== 세트 / 게이미피케이션 ===== */
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 18px; }
+.chip {
+  padding: 7px 16px; border-radius: 20px; font-size: .9rem; font-weight: 700;
+  background: var(--card); border: 1px solid var(--line); color: var(--ink-soft);
+}
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+.chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+button.set-type { font-family: inherit; font-size: inherit; cursor: pointer; text-align: left; width: 100%; }
+.set-chip {
+  font-size: .78rem; font-weight: 800; padding: 4px 11px; border-radius: 20px;
+  background: var(--plan-soft); color: var(--plan);
+}
+.xp-line { display: flex; gap: 10px; justify-content: center; align-items: center; margin: 8px 0; }
+.xp-gain { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+.streak-chip {
+  font-size: .85rem; font-weight: 700; background: var(--execute-soft); color: var(--execute);
+  padding: 4px 12px; border-radius: 20px;
+}
+.level-up { color: var(--ok); font-weight: 700; margin: 4px 0; }
+.level-bar-row { display: flex; align-items: center; gap: 10px; }
+.level-name { font-size: .88rem; font-weight: 800; flex-shrink: 0; }
+.level-track { flex: 1; width: auto; }
+.level-next { font-size: .8rem; color: var(--ink-faint); flex-shrink: 0; }
+.badge-earned { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 10px 0; }
+.badge-chip {
+  background: var(--hint-soft); color: var(--hint); font-weight: 700;
+  font-size: .88rem; padding: 6px 14px; border-radius: 20px;
+}
+.badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.badge-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 12px; text-align: center; display: flex; flex-direction: column; gap: 3px;
+}
+.badge-card .badge-icon { font-size: 1.6rem; }
+.badge-card strong { font-size: .92rem; }
+.badge-card span:last-child { font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+.badge-card.locked { opacity: .45; }
+@media (max-width: 640px) { .badge-grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* ===== 오류 ===== */
 .error-card {
   background: var(--card); border: 1px solid var(--line);

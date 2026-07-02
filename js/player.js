@@ -108,11 +108,16 @@ const Player = (() => {
     }).join('');
 
     const isDone = S.stepIndex >= p.steps.length;
+    const set = Store.getSet();
+    const inSet = set && set.ids[set.index] === p.id;
     S.container.innerHTML = `
       <div class="player">
         <div class="player-top">
           <a href="#/unit/${S.unit.unitId}" class="back-link">← ${esc(S.unit.unitName)}</a>
-          <span class="diff-badge diff-${p.difficulty}">${DIFF_NAMES[p.difficulty]}</span>
+          <span style="display:flex;gap:8px;align-items:center">
+            ${inSet ? `<span class="set-chip">${esc(set.typeName)} ${set.index + 1}/${set.ids.length}</span>` : ''}
+            <span class="diff-badge diff-${p.difficulty}">${DIFF_NAMES[p.difficulty]}</span>
+          </span>
         </div>
         <div class="story-card">
           <h2>${esc(p.title)}</h2>
@@ -242,20 +247,62 @@ const Player = (() => {
 
   function renderComplete() {
     const p = S.problem;
-    Store.recordSolved(p.id, {
+    const perfect = S.wrongTotal === 0 && S.hintsUsed === 0 && S.revealedCount === 0;
+    const { firstSolve } = Store.recordSolved(p.id, {
       attempts: S.wrongTotal,
       hints: S.hintsUsed,
       revealed: S.revealedCount > 0
     });
+    const award = Store.awardForSolve({
+      difficulty: p.difficulty,
+      perfect,
+      revealed: S.revealedCount > 0,
+      firstSolve,
+      unitProblemIds: S.unit.problems.map(q => q.id)
+    });
 
-    const perfect = S.wrongTotal === 0 && S.hintsUsed === 0 && S.revealedCount === 0;
+    // 세트 진행 처리
+    const set = Store.getSet();
+    const inSet = set && set.ids[set.index] === p.id;
+    const setLast = inSet && set.index >= set.ids.length - 1;
+    let setBonus = null;
+    if (setLast) {
+      setBonus = Store.awardSetComplete();
+      Store.clearSet();
+    }
+
+    const allBadges = [...award.newBadges, ...(setBonus ? setBonus.newBadges : [])];
+    const level = setBonus ? setBonus.level : award.level;
     const next = S.unit.problems.find(q => q.difficulty === p.difficulty + 1);
+
+    let mainAction;
+    if (inSet && !setLast) {
+      mainAction = `<button id="btn-set-next" class="btn primary">세트 다음 문제 (${set.index + 2}/${set.ids.length}) →</button>`;
+    } else if (setLast) {
+      mainAction = `<a class="btn primary" href="#/sets">새 세트 만들기</a>`;
+    } else if (next) {
+      mainAction = `<a class="btn primary" href="#/play/${next.id}">다음 단계 도전 (${DIFF_NAMES[next.difficulty]}) →</a>`;
+    } else {
+      mainAction = `<a class="btn primary" href="#/unit/${S.unit.unitId}">단원으로</a>`;
+    }
 
     S.container.querySelector('#current-step').innerHTML = `
       <div class="complete-card">
-        <div class="complete-emoji">${perfect ? '🏆' : '🎉'}</div>
-        <h2>${perfect ? '완벽한 풀이!' : '문제 해결!'}</h2>
+        <div class="complete-emoji">${setLast ? '🏅' : perfect ? '🏆' : '🎉'}</div>
+        <h2>${setLast ? '세트 완주!' : perfect ? '완벽한 풀이!' : '문제 해결!'}</h2>
         <p class="final-answer">답: <strong>${fmt(p.finalAnswer)}</strong></p>
+        <div class="xp-line">
+          <span class="xp-gain">+${award.xp + (setBonus ? setBonus.xp : 0)} XP</span>
+          ${award.streak >= 2 ? `<span class="streak-chip">🔥 ${award.streak}일 연속</span>` : ''}
+        </div>
+        ${award.levelUp ? `<p class="level-up">레벨 업! 이제 <strong>${esc(level.name)}</strong>예요</p>` : ''}
+        <div class="level-bar-row">
+          <span class="level-name">${esc(level.name)}</span>
+          <span class="progress-track level-track"><span class="progress-fill" style="width:${level.progress}%"></span></span>
+          <span class="level-next">${level.nextMin ? `${level.xp}/${level.nextMin}` : 'MAX'}</span>
+        </div>
+        ${allBadges.length ? `<div class="badge-earned">${allBadges.map(b =>
+          `<span class="badge-chip">🎖 ${esc(b.name)}</span>`).join('')}</div>` : ''}
         <div class="wrapup">${nl2br(p.wrapUp)}</div>
         <div class="stats">
           <span>다시 생각한 횟수 ${S.wrongTotal}</span>
@@ -263,12 +310,20 @@ const Player = (() => {
         </div>
         <div class="complete-actions">
           <button id="btn-retry" class="btn ghost">다시 풀기</button>
-          ${next ? `<a class="btn primary" href="#/play/${next.id}">다음 단계 도전 (${DIFF_NAMES[next.difficulty]}) →</a>` : ''}
-          <a class="btn ${next ? 'ghost' : 'primary'}" href="#/unit/${S.unit.unitId}">단원으로</a>
+          ${mainAction}
+          <a class="btn ghost" href="#/unit/${S.unit.unitId}">단원으로</a>
         </div>
       </div>`;
     S.container.querySelector('#btn-retry').addEventListener('click', () =>
       start(S.container, S.unit, S.problem));
+    const setNextBtn = S.container.querySelector('#btn-set-next');
+    if (setNextBtn) {
+      setNextBtn.addEventListener('click', () => {
+        set.index++;
+        Store.saveSet(set);
+        location.hash = `#/play/${set.ids[set.index]}`;
+      });
+    }
   }
 
   return { start, DIFF_NAMES, PHASE_INFO, PHASES };
