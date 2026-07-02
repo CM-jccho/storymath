@@ -16,8 +16,25 @@ const Player = (() => {
     div.textContent = text;
     return div.innerHTML;
   }
+  // 4자리 이상 정수에 3자리 콤마 (소수부는 그대로, '2026년' 같은 연도는 제외)
+  function addCommas(escaped) {
+    return String(escaped).replace(/(\d+)(\.\d+)?/g, (m, int, dec, offset, str) => {
+      const after = str.charAt(offset + m.length);
+      if (int.length < 4 || after === '년') return m;
+      return int.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (dec || '');
+    });
+  }
+  // 일반 텍스트: 이스케이프 + 콤마
+  function fmt(text) {
+    return addCommas(esc(text));
+  }
+  // 여러 줄 텍스트: + 줄바꿈
   function nl2br(text) {
-    return esc(text).replace(/\n/g, '<br>');
+    return fmt(text).replace(/\n/g, '<br>');
+  }
+  // 스토리·질문: 숫자를 강조 칩으로 감싸 "숫자 찾기"를 돕는다
+  function nl2brNum(text) {
+    return nl2br(text).replace(/(\d[\d,]*(?:\.\d+)?)/g, '<span class="num">$1</span>');
   }
 
   function start(container, unit, problem) {
@@ -74,7 +91,7 @@ const Player = (() => {
             <span class="step-status">${s.revealed ? '👀 정답 봄' : '✅'}</span>
           </div>
           <p class="step-prompt">${nl2br(s.step.prompt)}</p>
-          <p class="chosen-answer">${esc(s.answerText)}</p>
+          <p class="chosen-answer">${fmt(s.answerText)}</p>
           <p class="step-explain">${nl2br(s.step.explain)}</p>
         </div>`;
     }).join('');
@@ -88,8 +105,8 @@ const Player = (() => {
         </div>
         <div class="story-card">
           <h2>${esc(p.title)}</h2>
-          <p class="story">${nl2br(p.story)}</p>
-          <p class="question">❓ ${nl2br(p.question)}</p>
+          <p class="story">${nl2brNum(p.story)}</p>
+          <p class="question">❓ ${nl2brNum(p.question)}</p>
         </div>
         <div class="step-dots">${dots}</div>
         <div class="steps">${solvedHtml}</div>
@@ -118,7 +135,7 @@ const Player = (() => {
       body = `
         <div class="options">
           ${step.options.map((o, i) =>
-            `<button class="option" data-i="${i}">${multi ? '<span class="checkbox"></span>' : ''}${esc(o)}</button>`
+            `<button class="option" data-i="${i}">${multi ? '<span class="checkbox"></span>' : ''}${fmt(o)}</button>`
           ).join('')}
         </div>
         ${multi ? '<button id="btn-check" class="btn primary">선택 완료</button>' : ''}`;
@@ -226,7 +243,7 @@ const Player = (() => {
       <div class="complete-card">
         <div class="complete-emoji">${perfect ? '🏆' : '🎉'}</div>
         <h2>${perfect ? '완벽한 풀이!' : '문제 해결!'}</h2>
-        <p class="final-answer">답: <strong>${esc(p.finalAnswer)}</strong></p>
+        <p class="final-answer">답: <strong>${fmt(p.finalAnswer)}</strong></p>
         <div class="wrapup">📌 ${nl2br(p.wrapUp)}</div>
         <div class="stats">
           <span>다시 생각한 횟수 ${S.wrongTotal}</span>
