@@ -183,7 +183,8 @@
 
     const sections = await Promise.all(grade.semesters.map(async sem => {
       const rows = await Promise.all(sem.units.map(u => unitRowHtml(u, null)));
-      return `<h2 class="semester-title">${sem.semester}학기</h2><div class="unit-list">${rows.join('')}</div>`;
+      const title = sem.label ? esc(sem.label) : `${sem.semester}학기`;
+      return `<h2 class="semester-title">${title}</h2><div class="unit-list">${rows.join('')}</div>`;
     }));
 
     app.innerHTML = `
